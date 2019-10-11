@@ -1,0 +1,36 @@
+ffordata0 <- function(data,rowsel,colsel) { subsetdata0 <- data[rowsel, colsel, drop = F]
+for (i in 1:length (subsetdata0)) { 
+  if (is.numeric(subsetdata0[ ,i]) == TRUE) {print(list(sum(subsetdata0[ ,i])))} 
+  else if (is.character(subsetdata0[ ,i]) == TRUE || is.logical(subsetdata0[ ,i]) == TRUE || is.factor(subsetdata0[ ,i]) == TRUE) {print(data.frame(ftable(subsetdata0[ ,i])))}}}
+ffordata0(data0,2:9, 3:5)
+Var1 Freq
+1        Berlin    1
+2      Brasilia    0
+3  Buenos Aires    1
+4        Lisbon    0
+5        Madrid    1
+6        Moscow    0
+7      New Deli    0
+8          Rome    1
+9      Santiago    1
+10        Seoul    1
+11        Tokio    1
+12      Tunisia    1
+[[1]]
+[1] 570
+
+Var1 Freq
+1    F    2
+2    M    6
+
+ffordata0(iris,2:9, 3:5)
+[[1]]
+[1] 11.6
+
+[[1]]
+[1] 1.9
+
+Var1 Freq
+1     setosa    8
+2 versicolor    0
+3  virginica    0
