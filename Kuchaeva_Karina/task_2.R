@@ -1,5 +1,3 @@
-library(plyr)
-
 print_summary_result <- function(list_with_result) {
   print(list_with_result[[1]])
   print(paste0('Resulting dataframe has ', ncol(list_with_result[[2]]), ' columns and ',  nrow(list_with_result[[2]]), ' rows.'))
@@ -14,7 +12,7 @@ calculate_standart_value <- function(df_column_data, column_name) {
     calculated_value <- mean(df_column_data)
   } else if (class_of_data == 'character' || class_of_data == 'logical' || class_of_data == 'factor') {
     print(paste0('Calculating freq table for ', column_name))
-    calculated_value <- count(df_column_data, 1)
+    calculated_value <- table(df_column_data)
   } 
   calculated_value
 }
