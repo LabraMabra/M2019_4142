@@ -1,0 +1,19 @@
+my_func <- function(data_frame, row_sel, column_sel) {
+  new_data <- data_frame[row_sel, column_sel]
+  
+  for (i in 1:length(new_data)){
+    if(is.numeric(new_data[,i]) == TRUE){
+       mean_value <- mean(new_data[,i])
+      results[[i]] <- mean_value
+    }
+    else {
+      other <- table(new_data[,i])
+      results[[i]] <- other
+       }
+  }
+  
+  return(list(new_data, results))
+}
+
+my_func(iris, 1:10, 1:5)
+my_func(Orange,1:14, c("age", "circumference"))
