@@ -1,0 +1,23 @@
+calculate <- function(col_data, f) {
+  new_value <- NULL
+  data_class <- class(col_data)
+  if (data_class == 'numeric') {
+    new_value <- f(col_data)
+  } 
+  else if (data_class == 'character' || data_class == 'logical' || data_class == 'factor') 
+  {
+    new_value <- length(col_data)
+  } 
+  new_value
+}
+
+result_fun <- function(dataframe, row_selector, column_selector, f = mean) {
+  new_df <- dataframe[row_selector, column_selector]
+  df_list <- split(new_df, 1)
+  new_values <- lapply(df_list, function(x) lapply(x, function(y) calculate(y, f)))
+  list(new_values, new_df)
+}
+
+example_df <- iris
+result <- result_fun(example_df, c(1,2,3,4,5,6,7))
+print(result)
