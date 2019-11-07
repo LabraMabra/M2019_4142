@@ -11,6 +11,7 @@ View(weather)
 
 #TIDYING_DATA
 library(tidyr)
+library(dplyr)
 newweather <-weather[,-1] %>% gather(key = day, value = val, X1 : X31)  %>% 
   pivot_wider(names_from = measure, values_from = val)  
 View(newweather)
@@ -20,7 +21,6 @@ View(newweather)
 #it may be convenient to select certain years/months/days as in the examples below
 
 library(data.table)
-library(dplyr)
 draftday<-data.table(newweather$day) 
 day<- separate(draftday, V1, c("X", "day"),sep = 1)[,2]
 finalweather<-cbind(day, newweather[,-3])[,c(2,3,1,4:25)]
