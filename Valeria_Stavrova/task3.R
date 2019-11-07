@@ -5,4 +5,6 @@ function(x)ifelse(is.numeric(x), mean(x),list(table(x)))))}
 
 #treat numeric data as matrices
 numfun <-function(data,rowset,colset){
- Filter(is.numeric,data[rowset,colset, drop = FALSE]) %>% colMeans %>% print}
+ result <- Filter(is.numeric,data[rowset,colset, drop = FALSE])
+ finalresult <-colMeans(result)
+ print(finalresult)}
