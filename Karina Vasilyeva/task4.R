@@ -9,19 +9,17 @@ it1 <- weather1 %>%
     values_to = "Value",
     values_drop_na = TRUE
     )
-> View(it1)
-
 it2 <- it1 %>%
   pivot_wider(
     names_from = measure, values_from = Value, 
     )
-> View(it2)
+View(it2)
 colnames(it2)
-class(it2[ , 4])
+
 it30 <-  it2 %>% 
 arrange(year, month)
 
-it31<- unite(it30, date, Day, month, year)
+it31 <- unite(it30, date, Day, month, year)
 
 it4 <- group_by(it31, date ) %>%
   summarise(Max.TemperatureF = max(Max.TemperatureF , na.rm = T),
