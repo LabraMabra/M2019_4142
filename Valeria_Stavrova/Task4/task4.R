@@ -4,7 +4,6 @@ dim(weather)
 names(weather)
 str(weather)
 summary(weather)
-
 head(weather)
 tail(weather)
 print(weather)
