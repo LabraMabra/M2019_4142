@@ -4,7 +4,8 @@ append(list(data[rowset, colset]),lapply((data[rowset, colset]),
 function(x)ifelse(is.numeric(x), mean(x),list(table(x)))))}
 
 #treat numeric data as matrices
+library(dplyr)
 numfun <-function(data,rowset,colset){
- result <- Filter(is.numeric,data[rowset,colset, drop = FALSE])
- finalresult <-colMeans(result)
- print(finalresult)}
+ Filter(is.numeric,data[rowset,colset, drop = FALSE]) %>% colMeans %>% print}
+                                         
+                                         
