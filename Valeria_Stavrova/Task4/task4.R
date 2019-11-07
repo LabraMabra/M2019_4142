@@ -16,7 +16,6 @@ newweather <-weather[,-1] %>% gather(key = day, value = val, X1 : X31)  %>%
 View(newweather)
 
 #PREPARING_FOR_ANALYSIS
-#let's bring dates to a reasonable format
 #i decided to keep days,months and years in different columns, because
 #it may be convenient to select certain years/months/days as in the examples below
 
