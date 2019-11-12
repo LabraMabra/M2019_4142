@@ -1,0 +1,38 @@
+library(datasets)
+
+calc <- function(data) {
+    if (is.data.frame(data)) {
+        return(calc_df(data))
+    } else {
+        return(calc_s(data))
+    }
+}
+
+calc_df <- function(data) {
+    len <- length(data)
+    result <- vector("list", len)
+    for (i in 1:len) {
+        result[[i]] <- calc_s(data[,i])
+    }
+    return(result)
+}
+
+calc_s <- function(val) {
+    if (is.numeric(val)) {
+        return(mean(val))
+    } else {
+       return(table(val))
+    }
+}
+
+calc_03 <- function(data, row, column) {
+    temp <- data[row, column]
+    splitted <- split(temp, 1)
+    total_result <- lapply(splitted, function(x) lapply(x, function(y) calc(y)))
+    print("List of calculation results:")
+    print(list(total_result))   
+}
+
+print(calc_03(iris))
+print(calc_03(iris, iris$Petal.Length > 2))
+print(calc_03(iris, iris$Petal.Length > 2, c('Petal.Width')))
