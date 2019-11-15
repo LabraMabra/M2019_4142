@@ -2,12 +2,12 @@ func <- function(dataframe, row_sel, col_sel) {
   subdata <- dataframe[row_sel, col_sel]
   result <- list()
   for (i in 1:length(subdata)) {
-    if (is.numeric(subdata[, i]) == TRUE) {
-      sumdata <- sum(subdata[, i])
+    if (is.numeric(subdata[i]) == TRUE) {
+      sumdata <- sum(subdata[i])
       result[[i]] <- sumdata
     }
     else {
-      freqdata <- table(subdata[, i])
+      freqdata <- table(subdata[i])
       result[[i]] <- freqdata
     }
   }
