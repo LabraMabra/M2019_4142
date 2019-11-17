@@ -1,18 +1,17 @@
 my_func <- function(data, r_s, c_s){
   subset <- data[r_s, c_s]
-  plus <- list(subset)
+  res <- list(subset)
   
   for (i in 1:length(subset)) {
     if (is.numeric(subset[,i])){
       summa <- sum(subset[,i])
-      plus[[i+1]] <- summa
+      res[[i+1]] <- summa
     } else {
-      slova <- table(subset[,i])
-      plus[[i+1]] <- slova
+      res[[i+1]] <- table(subset[,i])
       
     }
   } 
-  print (plus)
+  res
 }
 
 my_func(iris, c(1:150), c(1:5)) #example
