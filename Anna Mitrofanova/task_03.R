@@ -9,7 +9,6 @@ func <- function(x){
   }
 }
 
-
 count <- function(data, row_s, col_s) {
   subset <- data[row_s, col_s]
   result <- list(subset)
