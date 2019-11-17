@@ -12,7 +12,8 @@ count <- function(data, row_s, col_s) {
       result[[i]] <- freq
     }
   }
- print(result) 
+  print(result) 
 }
 
-result <- count(iris, 1:150, 1:5) 
+res <- count(iris, 1:150, 1:5) 
+res
