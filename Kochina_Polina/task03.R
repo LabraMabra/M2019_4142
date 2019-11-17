@@ -18,5 +18,5 @@ task_3_func <- function(data, r_s, c_s, fun=sum) {
 }
 
 
-result <- task_3_func(iris, 1:100, 1:3)
+result <- task_3_func(iris, 1:100, 1:3) #example
 result
