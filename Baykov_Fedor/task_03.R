@@ -1,14 +1,17 @@
 data <- iris
-fun <- function(x) {
-   somedata <- list()
-   if (is.numeric(x)) {
-      s <- sum(x);
-      somedata <- s;
-   } else {
-      freq <- table(x);
-      somedata <- freq;
-   }
+fun1 <- function (col_s) {
+   somedata <- NULL;
+   if (is.numeric(col_s)) {
+         somedata <- sum(col_s);
+      } else {
+         somedata <- table(col_s);
+      }
 }
-sapply (data[48:53, 5], fun)
-lapply(data[23:38, 4], fun)
+fun <- function(data, row_s, col_s) {
+   subdata <- data[row_s, col_s];
+   lapply(subdata, fun1);
+   
+}
 
+fun (data, 48:53, 3:5)
+fun (data, 1:20, 1:2)
