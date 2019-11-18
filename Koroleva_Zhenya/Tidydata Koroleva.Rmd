@@ -1,0 +1,22 @@
+# __Tidy data__
+## By Zhenya Koroleva
+**Part 1**
+```{r}
+install.packages("tidyr")
+library("tidyr")
+`weather` <- readRDS("C:/Users/userr/Downloads/weather.rds")
+View(weather)
+```
+
+**Part 2**
+```{r}
+weather$X <- NULL
+names(weather)[4:34] <- '1':'31'
+weather1<- gather(weather, day, numbers, X1: X31)
+weather1 <- unite (weather1, y_m_d, year, month, day)
+weather2 <- spread(weather1, key = measure, value = numbers)
+weather2 <- weather2[order(weather2$y_m_d),]
+weather2 <- na.omit(weather2)
+```
+
+*The End*
