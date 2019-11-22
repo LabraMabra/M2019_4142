@@ -1,0 +1,49 @@
+---
+title: "task_4"
+output: html_document
+---
+## Connect packets and data
+```{r, message=FALSE}
+library(dplyr)
+library(tidyr)
+weather <- readRDS("weather.rds")
+```
+## Tidying data
+```{r, message=FALSE}
+weather <- weather[,-1]
+weather_tidy <- weather %>%
+  gather(key = day, value = val, X1 : X31) %>% 
+  pivot_wider(names_from  = measure, values_from = val) %>% 
+  separate(day, c("x", "day"), sep = 1) %>% 
+  select(-x) %>% 
+  arrange(year, month) %>% 
+  unite(Date, year, month, day, sep = "-")
+```
+## Checking NA
+```{r, echo=FALSE}
+print("There is at least one NA:")
+any(is.na(weather_tidy))
+print("The sum of all NA:")
+sum(is.na(weather_tidy))
+```
+## Removing NA and wrongs
+```{r, message=FALSE}
+weather_remove_na <- na.omit(weather_tidy)
+weather_remove_na <- weather_remove_na %>% filter(PrecipitationIn != "T" & Events != "")
+```
+## Checking summary
+```{r, echo=FALSE}
+summary(weather_remove_na)
+```
+## Fixing data type
+```{r, message=FALSE}
+weather_new_type <- weather_remove_na
+weather_new_type[ , c(2:21, 23)] <- apply(weather_new_type[ , c(2:21, 23)], 2, function(x) as.numeric(as.character(x)))
+weather_new_type$Date <- as.Date(weather_new_type$Date, "%Y-%m-%d")
+```
+## Checking summary
+```{r, echo=FALSE}
+summary(weather_new_type)
+print("Data column type:")
+class(weather_new_type$Date)
+```
