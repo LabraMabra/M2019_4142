@@ -1,0 +1,181 @@
+---
+title: "Cleaning Weather dataset"
+author: "Anna Popova"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+library(stringr)
+library(ggplot2)
+library(lubridate)
+weather <- readRDS("~/R/R-class/weather.rds")
+```
+
+This is a weather.rds dataset cleaning and tidyng.
+
+*Observing the dataset*
+```{r}
+View(weather)
+```
+**Class**
+```{r}
+class(weather)
+```
+**Dimension**
+```{r}
+dim(weather)
+```
+**Names of columns**
+```{r}
+names(weather)
+```
+**Structure**
+```{r}
+str(weather)
+```
+**Also structure**
+```{r}
+glimpse(weather)
+```
+**Summary**
+```{r}
+summary(weather)
+```
+**First six rows**
+```{r}
+head(weather)
+```
+**Last six rows**
+```{r}
+tail(weather)
+```
+
+Now when we've got an idea about dataset let's start cleaning
+
+**Gathering the days from column names**
+```{r}
+weather2 <- gather(weather, day, value, X1:X31, na.rm = TRUE)
+```
+**Taking variable names from values**
+```{r}
+weather2 <- weather2[, -1]
+weather3 <- spread(weather2, measure, value)
+```
+**Making clear date**
+```{r}
+weather3$day <- str_replace(weather3$day, "X", "")
+weather4 <- unite(weather3, Date, year, month, day, sep = "-")
+weather4$Date <- ymd(weather4$Date)
+```
+**Rearranging columns**
+```{r}
+weather5 <- select(weather4, Date, Events, CloudCover:WindDirDegrees)
+```
+**Replacing trace amounts with 0**
+```{r}
+weather5$PrecipitationIn <- str_replace(weather5$PrecipitationIn, "T", "0")
+```
+**Converting characters to numerics**
+```{r}
+weather6 <- mutate_each(weather5, funs(as.numeric), CloudCover:WindDirDegrees)
+```
+**Missing values to NA**
+```{r}
+str(weather6)
+sum(is.na(weather6))
+summary(is.na(weather6))
+ind <- which(is.na(weather6$Max.Gust.SpeedMPH))
+weather6[ind, ]
+summary(weather6)
+```
+
+
+**Looking for mistakes and the range**
+
+```{r, echo=FALSE}
+hist(weather6$MeanDew.PointF)
+```
+```{r, echo=FALSE}
+hist(weather6$Min.TemperatureF)
+```
+```{r, echo=FALSE}
+hist(weather6$Mean.TemperatureF)
+```
+```{r, echo=FALSE}
+hist(weather6$Mean.VisibilityMiles)
+```
+```{r}
+summary(weather6$Mean.VisibilityMiles)
+ind <- which(weather6$Mean.VisibilityMiles == -1)
+weather6$Mean.VisibilityMiles[ind] <- mean(weather6$Mean.VisibilityMiles[ind])
+```
+```{r, echo=FALSE}
+hist(weather6$Max.Humidity)
+```
+```{r}
+ind <- which(weather6$Max.Humidity > 150)
+ind
+weather6$Max.Humidity[ind] <- 100
+```
+```{r}
+summary(weather6$CloudCover)
+```
+```{r}
+summary(weather6$Max.Dew.PointF)
+```
+```{r, echo=FALSE}
+hist(weather6$Max.Gust.SpeedMPH)
+```
+```{r}
+summary(weather6$Max.Sea.Level.PressureIn)
+```
+```{r}
+summary(weather6$Max.Wind.SpeedMPH)
+```
+```{r}
+summary(weather6$Mean.Humidity)
+```
+```{r}
+summary(weather6$Mean.Sea.Level.PressureIn)
+```
+```{r}
+summary(weather6$Mean.Wind.SpeedMPH)
+```
+```{r, echo=FALSE}
+hist(weather6$Max.Dew.PointF)
+```
+```{r}
+summary(weather6$Min.DewpointF)
+```
+```{r}
+summary(weather6$WindDirDegrees)
+```
+```{r}
+summary(weather6$PrecipitationIn)
+```
+```{r}
+summary(weather6$Min.VisibilityMiles)
+```
+```{r}
+summary(weather6$Min.TemperatureF)
+```
+```{r}
+summary(weather6$Min.Sea.Level.PressureIn)
+```
+```{r}
+summary(weather6$Min.Humidity)
+```
+```{r}
+weather7 <- weather6[order(weather6$Date),]
+weather7 <- na.omit(weather7)
+```
+```{r}
+View(weather7)
+```
+```{r}
+str(weather7)
+```
+**The dataset is cleaned.**
