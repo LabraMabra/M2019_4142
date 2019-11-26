@@ -1,0 +1,67 @@
+---
+title: "Weather Data 12.2014 - 12.2015"
+author: "Eseniia Novokhatskaia" 
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Weather Report
+
+This is an initial 'Weather' data set, which contains an information about different weather observations from December 2014 till December 2015. 
+
+```{r}
+library(tidyverse)
+weather <- readRDS("/Users/apple/Desktop/weather.rds")
+head(weather)
+```
+
+The problem with initial data set is you cannot really follow the logic of the data gathering and sorting, so it is needed to be fixed. 
+
+First of all, we clearly see that 'X-' are days. We do not really need Xs, so we put numbers of days instead.
+
+```{r}
+weather$X <- NULL
+names(weather)[4:34] <- '1':'31'
+head(weather)
+```
+
+Then, we need to sort out the date of the observation. It is easier to unite day, month and year in one column and call it "date".
+
+```{r}
+weather <- weather %>%
+  gather(day, data, '1': '31') %>%
+  unite (Date, year, month, day)
+head(weather)
+```
+
+Now we need to spread all the measures in different columns, so we have different dates as rows in our data set and different measures in columns.
+
+```{r}
+weather <- weather %>%
+  spread(key = measure, value = data)
+head(weather)
+```
+
+Weather data set already looks understandable, however, we can make it even better by sorting the data set by date and bringing all measure names to one style.
+
+```{r}
+weather <- weather %>%
+  mutate(Date = as.Date(Date, format = "%Y_%m_%d")) %>%
+  arrange(Date) %>%
+  rename(
+    Cloud.CoverOktas = CloudCover,
+    Max.HumidityPercent = Max.Humidity, 
+    Mean.HumidityPercent = Mean.Humidity, 
+    Mean.Dew.PointF = MeanDew.PointF,
+    Min.Dew.PointF = Min.DewpointF,
+    Min.HumidityPercent = Min.Humidity,
+    Wind.DirDegrees = WindDirDegrees,
+  )
+head(weather)
+```
+
+
+
