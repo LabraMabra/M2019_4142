@@ -16,7 +16,13 @@ weather1<- gather(weather, day, numbers, X1: X31)
 weather1 <- unite (weather1, y_m_d, year, month, day)
 weather2 <- spread(weather1, key = measure, value = numbers)
 weather2 <- weather2[order(weather2$y_m_d),]
+```
+
+**Part3**
+```{r}
 weather2 <- na.omit(weather2)
+any(is.na(weather2))
+weather2$PrecipitationIn <- stringr::str_replace(weather2$PrecipitationIn, "T", "0")
 ```
 
 *The End*
