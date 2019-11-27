@@ -1,0 +1,45 @@
+---
+title: "Weather"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+# Data Cleaning
+## by Dima Volkov
+
+### Connecting packages
+```{r}
+library(dplyr)
+library(tidyr)
+```
+
+
+
+### Tidying data
+
+```{r}
+#Open data
+weather <- readRDS('weather.rds')
+#Delete 'X'
+delete_x <- select (weather, -X)
+#Change names for columns
+names(delete_x)[4:34] <- '1':'31'
+#Transform the table
+long_weather <- gather(delete_x, key = day, value = val, '1' : '31')
+#Make normal datetime
+cool_datetime <- unite(long_weather, col = y_m_d, year, month, day)
+#Transform the table
+wide_weather <- spread(cool_datetime, key = measure, value = val)
+#Sort in normal order by datetime
+right_order <- wide_weather[order(wide_weather$y_m_d),]
+```
+
+### Checking and remove NA
+
+```{r}
+sum(is.na(right_order))
+best_weather <- na.omit(right_order)
+```
+# The End
