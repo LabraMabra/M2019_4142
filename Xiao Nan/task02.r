@@ -1,13 +1,12 @@
-
 my_f <- function(data_frame, row_sel,col_sel) {
   sub_data <- data_frame[row_sel,col_sel]
   result_list <- list()
   for (i in colnames(sub_data)) {
     if (is.numeric(sub_data[,i])) {
-      sum_sub <- sum(sub_data[, i])
-      result_list[[i]] <- sum_sub
+      mean_sub <- mean(sub_data[, i])
+      result_list[[i]] <- mean_sub
     } else {
-      freq_table <- table(sub_data[,i])
+      freq_table <- summary(sub_data[,i])
       result_list[[i]] <- freq_table
     }
   }
@@ -15,6 +14,6 @@ my_f <- function(data_frame, row_sel,col_sel) {
 }
 
 #for example
-my_f(iris, c(1,3,5),1:3) 
-my_f(iris, c(1:10), c(1:5))
+my_f(iris, 26:125,c(1,2,5)) 
+my_f(iris, c(1,25,50,75,100,125,150), c(1:5))
 
