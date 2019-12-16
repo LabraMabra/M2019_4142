@@ -1,0 +1,77 @@
+---
+title: "Weather"
+author: "Stavrova Valeria"
+date: "19 11 2019"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+# Loading data
+```{r}
+weather <-readRDS("C:/Users/Adm/Downloads/weather.rds")
+```
+
+# Explorying data
+Let's have a look at the structure of the data.
+```{r}
+str(weather)
+summary(weather)
+```
+
+# Tidying data
+We see that values are stored in columns, not rows. We need to fix that. 
+```{r}
+library(tidyr)
+library(dplyr)
+newweather <-weather[,-1] %>% gather(key = day, value = val, X1 : X31)  %>% 
+  pivot_wider(names_from = measure, values_from = val)  
+```
+
+Also we need to sort out the date of observation. I decided to keep days, months and years in different columns, because it may be convenient to select certain years/months/days as in the examples below. 
+
+```{r}
+library(data.table)
+draftday<-data.table(newweather$day) 
+day<- separate(draftday, V1, c("X", "day"),sep = 1)[,2]
+finalweather<-cbind(day, newweather[,-3])[,c(2,3,1,4:25)]
+```
+We can also see that the columns that should be numeric are actually character. Precipitation column has some T values, but it may not be so, it's not a logical variable. We need to fix that too.
+
+```{r}
+finalweather1 <- finalweather %>% mutate_at(vars(-Events), as.numeric) %>% filter(PrecipitationIn != "T") 
+```
+
+Examples.
+```{r}
+finalweather1 %>% select(c(1:5)) %>% subset(year==2014)
+finalweather1 %>% select(year, month, day, Events) %>% subset(month==12) %>% subset(day==1)
+```
+
+Then we deal with the missing values.
+
+```{r}
+finalweather2<-na.omit(finalweather1)
+```
+
+# Let's have a look at the result we've got
+```{r}
+
+summary(finalweather2)
+```
+
+# Visualising
+
+```{r}
+boxplot(finalweather2$Max.TemperatureF, horizontal = T)
+
+boxplot(finalweather2$Max.Dew.PointF,finalweather1$MeanDew.PointF,finalweather1$Min.DewpointF)
+
+hist(finalweather2$Min.Humidity)
+
+boxplot(finalweather2$Mean.VisibilityMiles, horizontal = T)
+
+hist(finalweather2$PrecipitationIn)
+```
+
+*The End*
