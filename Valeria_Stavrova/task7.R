@@ -20,19 +20,16 @@ ui <-fluidPage(
                 placeholder = "Enter the title"),
       selectInput(inputId = "x",
                   label = "X-axis",
-                  choices = c("Miles/(US)gallon"="mpg", "Displacement"="disp", "Gross horsepower"="hp","Rear axle ratio"="drat",
-                              "Weight (1000 lbs)"= "wt","1/4 mile time"= "qsec"),
-                  selected= "mpg"),
+                  choices = c("Miles/(US)gallon"="mpg", "Displacement"="disp", "Gross horsepower"="hp","Rear axle ratio"="drat","Weight (1000 lbs)"= "wt","1/4 mile time"= "qsec"),
+                  selected= "Miles/(US)gallon"),
       selectInput(inputId = "y",
                   label="Y-axis",
-                  choices = c("Miles/(US)gallon"="mpg", "Displacement"="disp", "Gross horsepower"="hp","Rear axle ratio"="drat",
-                              "Weight (1000 lbs)"= "wt","1/4 mile time"= "qsec"),
-                  selected= "disp"),
+                  choices = c("Miles/(US)gallon"="mpg", "Displacement"="disp", "Gross horsepower"="hp","Rear axle ratio"="drat","Weight (1000 lbs)"= "wt","1/4 mile time"= "qsec"),
+                  selected= "Displacement"),
         selectInput(inputId = "color",
                   label="Color by",
-                  choices = c("Number of cylinders"="cyl","Engine type"="vs","Transmission"="am",
-                              "Number of forward gears"="gear","Number of carburetors"="carb"),
-                  selected= "disp"),
+                  choices = c("Number of cylinders"="cyl","Engine type"="vs","Transmission"="am","Number of forward gears"="gear","Number of carburetors"="carb"),
+                  selected= "Number of cylinders"),
       sliderInput(inputId = "slider",
                   label = "Alpha:",
                   min=0, max=1,
@@ -98,5 +95,6 @@ server <-function(input,output){
 }
 
 shinyApp(ui=ui, server=server)
+
 
 
