@@ -32,7 +32,7 @@ theme_bw()
 #another plot #1
 ggplot(gapminder, aes(x=lifeExp, y=year, group=country)) +
     geom_line(color="purple") +
-    ggtitle("Changes in life Expectancy from 1952 to 2007")+
+    ggtitle("Changes in life expectancy from 1952 to 2007")+
     facet_grid(.~continent)+
     xlab("Life Expectancy") + ylab("Years") +
     theme_classic()
@@ -49,7 +49,7 @@ gapminder %>% filter(country=="Bulgaria") %>%
 gapminder %>% filter(year=="2007") %>%  
   ggplot(aes(x=continent, y=lifeExp, fill=continent)) +
   geom_boxplot()+
-  ggtitle("Averange life expectancy in different continents for 2007")+
+  ggtitle("Life expectancy in different continents for 2007")+
   xlab("Life Expectancy") + ylab("Years") +
   theme_classic()
   
