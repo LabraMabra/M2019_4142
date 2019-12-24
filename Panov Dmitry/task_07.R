@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-library(tidyverse)
+library(dplyr)
 
 # Add data and change the type of columns
 data <- mtcars
