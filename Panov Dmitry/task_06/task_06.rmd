@@ -23,11 +23,11 @@ ggplot(df, aes(x = log(gdpPercap), y = lifeExp, color = continent, size = pop)) 
 ## Create new visualization
 ```{r}
 ggplot(df %>% 
-         filter(country == c('Hungary', 'Austria')),
-       aes(x = year, y = lifeExp, size = pop, color = gdpPercap)) +
-  geom_point() +
-  facet_grid(~country) +
-  scale_color_gradient(low = "red", high = "yellow") +
+         filter(country == c('Hungary', 'Austria')), aes(x = year, y = lifeExp, fill = lifeExp)) +
+  geom_bar(stat = "identity") +
+  facet_grid(. ~ country) +
+  theme_classic() +
+  scale_fill_gradient(low = "red", high = "yellow") +
   ggtitle("Life expectancy in Austria and Hungrary by years") +
   xlab("Year") +
   ylab("Life expectancy")
