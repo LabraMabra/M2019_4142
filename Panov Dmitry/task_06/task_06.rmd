@@ -1,0 +1,35 @@
+---
+title: "task_06"
+output: html_document
+---
+## Connect packets and data, checking summary
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+df <- data.frame(gapminder)
+summary(df)
+```
+## Visualize the data as an example
+```{r}
+ggplot(df, aes(x = log(gdpPercap), y = lifeExp, color = continent, size = pop)) +
+  geom_point() +
+  facet_wrap(~year, ncol = 4) +
+  ggtitle("GDP per capita vs Life Expectancy vs Year") +
+  xlab("GDP per capita (log)") +
+  ylab("Life expectancy")
+```
+
+## Create new visualization
+```{r}
+ggplot(df %>% 
+         filter(country == c('Hungary', 'Austria')),
+       aes(x = year, y = lifeExp, size = pop, color = gdpPercap)) +
+  geom_point() +
+  facet_grid(~country) +
+  scale_color_gradient(low = "red", high = "yellow") +
+  ggtitle("Life expectancy in Austria and Hungrary by years") +
+  xlab("Year") +
+  ylab("Life expectancy")
+```
+
