@@ -10,4 +10,7 @@ ggplot(gapData, aes(x = log(gdpPercap), y = lifeExp, color = continent, size = p
 
 ggplot(gapData[c(13:24,73:84),], aes(x = year, y = pop, color = country)) +
   geom_line() +
-  ggtitle("Austria vs. Albania")
+  ggtitle("Austria vs. Albania") +
+  xlab("Year") + 
+  ylab("Population")
+
