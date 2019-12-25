@@ -43,7 +43,7 @@ weather1 <- select(weather, -X)
 names(weather1)[4:34] <- '1':'31'
 ```
 
-#### We want to swap days and "meausre"
+#### We want to swap days and "measure"
 Also in procces we unite day, month, year in one single "d_m_y" date 
 ```{r}
 weather2 <- gather(weather1, key = day, value = val, '1' : '31')
@@ -62,19 +62,20 @@ sum(is.na(weather4))
 ##### After
 ```{r}
 weather4$Events[weather4$Events == ''] <- "Unknown"
-weather4$PrecipitationIn[weather4$PrecipitationIn == 'T'] <- "0.00"
+weather4$PrecipitationIn[weather4$PrecipitationIn == 'T'] <- "Unknown"
 weather5 <- na.omit(weather4)
 weather5[c(39:44), c(1:3,22)]
 sum(is.na(weather5))
 ```
-#### Change type of data in columns from "chr" to "num"
+#### Change type of data in columns from "chr" to "num" and Events as Factors
 ##### Before
 ```{r}
 str(weather5)
 ```
 ##### After
-```{r}
+```{r message=FALSE}
 weather5[c(2,4:23)] <- lapply(weather5[c(2,4:23)], as.numeric)
+weather5$Events <- factor(weather5$Events)
 str(weather5)
 ```
 #### Finally ordering data by time
@@ -83,4 +84,9 @@ weather5[c(1:10), c(1:5)]
 weather6 <- weather5[order(as.Date(weather5$d_m_y, "%d_%m_%y")),] 
 weather6[c(1:10), c(1:5)]
 ```
-
+#### Fixing remaining mistakes 
+```{r}
+weather6$Mean.VisibilityMiles[weather6$Mean.VisibilityMiles == -1] <- 1
+weather6$Max.Humidity[weather6$Max.Humidity == 1000] <- 100
+summary(weather6)
+```
