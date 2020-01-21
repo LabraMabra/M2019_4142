@@ -1,5 +1,5 @@
 my_f <- function(data_frame, row,col) {
-  sub_data <- data_frame[row,col]
+  sub_data <- data_frame[row,col，drop=F]
   result_list <- list()
   for (i in colnames(sub_data)) {
     if (is.numeric(sub_data[,i])) {
