@@ -11,7 +11,8 @@ in_f<-function(col){
 
 my_new_f<-function(data_frame,row,col){
   sub_data <- data_frame[row,col]
-  for (i in colnames(sub_data)){
-    return(sapply(sub_data,in_f))
-  }
+  return(list(sub_data, sapply(sub_data,in_f)))
 }
+
+my_new_f(iris, 26:125,c(1,2,5)) 
+my_new_f(iris, c(1,25,50,75,100,125,150), c(1:5))
